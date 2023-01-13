@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+Candidate assessment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="My assessment of client data using python ">
+<style>
+</head>
+<body>
+<h1>Questions</h1>
+<p>1.  What kinds of drugs are being administered to these patients? </p>
+<p></p>
+<p>Using https://bioportal.bioontology.org/  looks like the drugs are chemotherapy drugs.  NDDF 008815, 061483, 064126,008819, 008818 and 061484 are the chemotherapy drug doxorubicin.  008817 magnolia bark is a neurosedative that has been shown to have anti cancer properties in high doses.  It would be interesting to see treatment outcomes in patients using this and perhaps lab findings on the oxidative stress results of magnolia bark.</p>
+<p></p>
+<p>.py code</p>
+<p></p>
+<p>import pandas as pd</p>
+<p>import numpy as np</p>
+<p></p>
+<p>df1 = pd.read_json(r'downloads/facts.json')</p>
+<p>df2 = pd.read_json(r''downloads/treatments.json')</p>
+<p></p>
+<p>df2.head</p>
+<p></p>
+<p>2.  How would you use an interoperability standard to express these data?</p>
+<p></p>
+<p>When I was with Aprima using the HL7 standard was preferred that way when a message from our EHR was sent to the vaccine registry here in Texas.  It was one that could easily be interpreted.   There was only 1 way to interpret an ORM.  Each ORM had a segment and a name as defined by HL7.   Looking at the NDDF data in the treatments extract leading zeros could be an issue for standardization as the NDDF database uses leading zeros.  I would prefer to include the leading zeros so the standard is the same no matter if the data is incoming or outgoing.  Once I have this, NLM uses a CUI that I would like to join on for a more widely recognized identifier that could easily be used no matter what system is used.  This part was not too bad.  Python is quite similar to sql with maybe a bit of c# once you get the syntax down.</p>
+<p></p>
+<p>.py code</p>
+<p></p>
+<p>import pandas as pd</p>
+<p>import numpy as np</p>
+<p></p>
+<p>df3= pd.DataFrame({'NDDF_ID': ['008815', '061483', '064126','008819', '008818', '061484', '008817'],</p>
+<p>                    'name': ['Doxorubicin', 'Doxorubicin', 'Doxorubicin', 'Doxorubicin', 'Doxorubicin', 'Doxorubicin', 'Magnolia Bark' ]})</p>
+<p>df4 = pd.DataFrame({'NDDF_ID': ['008815', '061483', '064126','008819', '008818', '061484', '008817'],</p>
+<p>                    'CUI': ['C1576515', 'C4083189', 'C4083190', 'C1576516', 'C1576741', 'C4082857', 'C1572661']})</p>
+<p>display('df3', 'df4')</p>
+<p></p>
+<p>df5 = pd.merge(df3, df4 on = 'NDDF_ID')</p>
+<p>df5</p>
+</body>
+</html>
